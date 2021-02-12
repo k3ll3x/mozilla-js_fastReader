@@ -41,7 +41,7 @@ velocity.value = 150;
 velocity.style = "direction: rtl";
 
 let activate = document.createElement("button");
-activate.innerHTML = "Read This Page Fast";
+activate.textContent = "Read This Page Fast";
 activate.onclick = () => {
 	readFast();
 }
@@ -96,13 +96,13 @@ function removeElement(elementId) {
 	element.parentNode.removeChild(element);
 }
 
-function highlight(word) {
+/*function highlight(word) {
 	return new Promise(res => () => {
 		document.body.innerHTML = document.body.innerHTML.replace(`/${word}/g`, `<b><i>${word}</i></b>`);
 		//setTimeout(res, velocity.value)
 		//document.body.innerHTML = document.body.innerHTML.replace(`<b><i>${word}</i></b>`, word);
 	});
-}
+}*/
 
 //change button if text is selected and use that text
 function getSelectedText() {
@@ -120,7 +120,7 @@ function setSelectedText() {
     if (selectedText) {
 		//alert("Got selected text " + selectedText);
 		text = selectedText;
-		activate.innerHTML = "Read Selected Text Fast";
+		activate.textContent = "Read Selected Text Fast";
     }
 }
 
