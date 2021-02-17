@@ -23,11 +23,12 @@ readerContainer.append(document.createElement("br"));
 readerContainer.style = `
 	z-index: 3;
 	text-align:center;
+	color: black;
 	background-color: rgba(255,255,255,0.6);
 	position: -webkit-sticky;
 	position: sticky;
 	top: 25%;
-	font-size: 4em;
+	font-size: 3em;
 `;
 readerContainer.append(reader);
 readerContainer.append(document.createElement("br"));
