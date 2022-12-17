@@ -15,23 +15,55 @@ LICENCE: Open-Source, but y'all know... if you make a profit out of this, contac
 
 let text = document.body.innerText;
 
+let pause = false;
+
 let reader = document.createElement("h1");
 reader.style = "text-align:center;";
+
+let pausebtn = document.createElement("button");
+pausebtn.textContent = "Pause";
+pausebtn.onclick = () => {
+	pause = !pause;
+	if(pause){
+		pausebtn.textContent = "Play";
+	}else{
+		pausebtn.textContent = "Pause";
+	}
+}
+pausebtn.style = `
+	cursor: pointer; 
+	border: 1px solid #888888; 
+	background-color: transparent;
+	color: #888888; 
+	font-size: 1em;
+	float: right;
+	position: -webkit-sticky;
+	position: sticky;
+	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6); 
+`;
 
 let readerContainer = document.createElement("div");
 readerContainer.append(document.createElement("br"));
 readerContainer.style = `
-	z-index: 3;
+	width: 100%;
+	height: 90%;
+	z-index: 4;
 	text-align:center;
 	color: black;
+	float: right;
+	font-color: black;
 	background-color: rgba(255,255,255,0.6);
 	position: -webkit-sticky;
 	position: sticky;
 	top: 25%;
-	font-size: 3em;
+	font-size: 6em;
 `;
 readerContainer.append(reader);
 readerContainer.append(document.createElement("br"));
+
+readerContainer.appendChild(document.createElement("br"));
+readerContainer.appendChild(pausebtn);
+
 readerContainer.id = "freader";
 
 let velocity = document.createElement("input");
@@ -58,8 +90,9 @@ let container = document.createElement('div');
 container.appendChild(velocity);
 container.appendChild(document.createElement("br"));
 container.appendChild(activate);
+
 container.style = `
-	z-index: 4;
+	z-index: 5;
 	float: right;
 	position: -webkit-sticky;
 	position: sticky;
@@ -81,6 +114,9 @@ async function anim(text){
 		reader.innerText = words[i];
 		//highlight(words[i]);
 		await sleep(velocity.value);
+		while(pause){
+			await sleep(1000);
+		}
 	}
 
 	removeElement("freader");
