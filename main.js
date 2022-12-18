@@ -95,9 +95,8 @@ readerContainer.appendChild(pausebtn);
 let words_index = document.createElement("input");
 words_index.type = "range";
 words_index.min = 0;
-// words_index.max = 1000;
 words_index.value = 0;
-words_index.onchange = (e) => {
+words_index.oninput = (e) => {
 	i = e.target.value;
 };
 words_index.style = `
@@ -155,20 +154,19 @@ function readFast(){
 
 async function anim(){
 	pausebtn.textContent = " | | ";
-	// for(i in words)	{
 	for(i = 0; i < words.length; i++){
 		reader.innerText = words[i];
 		words_index.value = i;
-		//highlight(words[i]);
+		// highlight(words[i]);
 		await sleep(velocity.value);
-		while(pause){
-			if(breakanim){
-				breakanim = false;
-				pause = false;
-				removeElement("freader");
-				return;
-			}
-			await sleep(1000);
+		if(pause){
+			i--;
+		}
+		if(breakanim){
+			breakanim = false;
+			pause = false;
+			removeElement("freader");
+			return;
 		}
 	}
 
@@ -187,13 +185,13 @@ function removeElement(elementId) {
 	element.parentNode.removeChild(element);
 }
 
-/*function highlight(word) {
-	return new Promise(res => () => {
-		document.body.innerHTML = document.body.innerHTML.replace(`/${word}/g`, `<b><i>${word}</i></b>`);
-		//setTimeout(res, velocity.value)
-		//document.body.innerHTML = document.body.innerHTML.replace(`<b><i>${word}</i></b>`, word);
-	});
-}*/
+// function highlight(word) {
+// 	return new Promise(res => () => {
+// 		document.body.innerHTML = document.body.innerHTML.replace(`/${word}/g`, `<b><i>${word}</i></b>`);
+// 		//setTimeout(res, velocity.value)
+// 		//document.body.innerHTML = document.body.innerHTML.replace(`<b><i>${word}</i></b>`, word);
+// 	});
+// }
 
 //change button if text is selected and use that text
 function getSelectedText() {
