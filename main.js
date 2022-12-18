@@ -131,6 +131,7 @@ activate.style = `
 let showbtn = document.createElement('button');
 showbtn.innerText = '+';
 showbtn.style = `
+	font-size: 2em;
 	cursor: pointer; 
 	border: 1px solid #888888; 
 	background-color: transparent;
