@@ -128,10 +128,36 @@ activate.style = `
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6); 
 `;
 
+let showbtn = document.createElement('button');
+showbtn.innerText = '+';
+showbtn.style = `
+	cursor: pointer; 
+	border: 1px solid #888888; 
+	background-color: transparent;
+	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6); 
+	z-index: 6;
+	float: right;
+	position: -webkit-sticky;
+	// position: sticky;
+	position: fixed;
+	top: 10%;
+`;
+showbtn.onclick = (e) => {
+	if(e.target.innerText == '+'){
+		e.target.innerText = '-';
+		document.getElementById('freadcont').style.display = "block";
+	}else{
+		e.target.innerText = '+';
+		document.getElementById('freadcont').style.display = "none";
+	}
+};
+
 let container = document.createElement('div');
 container.appendChild(velocity);
 container.appendChild(document.createElement("br"));
 container.appendChild(activate);
+
+container.id = 'freadcont';
 
 container.style = `
 	z-index: 6;
@@ -140,8 +166,11 @@ container.style = `
 	// position: sticky;
 	position: fixed;
 	top: 22%;
+	display: none;
+  	// overflow: hidden;
 `;
 
+document.body.prepend(showbtn);
 document.body.prepend(container);
 
 function readFast(){
