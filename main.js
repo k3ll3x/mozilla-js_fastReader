@@ -14,55 +14,97 @@ LICENCE: Open-Source, but y'all know... if you make a profit out of this, contac
  */
 
 let text = document.body.innerText;
+let i = 0;
+let words = [];
 
 let pause = false;
+let breakanim = false;
 
-let reader = document.createElement("h1");
-reader.style = "text-align:center;";
+let reader = document.createElement("p");
+reader.style = `
+	text-align:center;
+	font-size: 6em;
+	color: #000000;
+`;
 
 let pausebtn = document.createElement("button");
-pausebtn.textContent = "Pause";
+pausebtn.textContent = " | | ";
 pausebtn.onclick = () => {
 	pause = !pause;
 	if(pause){
-		pausebtn.textContent = "Play";
+		pausebtn.textContent = " ▶ ";
 	}else{
-		pausebtn.textContent = "Pause";
+		pausebtn.textContent = " | | ";
 	}
 }
 pausebtn.style = `
+	font-size: 2em;
 	cursor: pointer; 
 	border: 1px solid #888888; 
 	background-color: transparent;
-	color: #888888; 
-	font-size: 1em;
+	color: #888888;
+	bottom: 10%;
+	float: center;
+	position: -webkit-sticky;
+	position: sticky;
+	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6); 
+`;
+
+let closebtn = document.createElement("button");
+closebtn.textContent = " X ";
+closebtn.onclick = () => {
+	pause = true;
+	breakanim = true;
+	activate.disabled = false;
+}
+closebtn.style = `
+	font-size: 2em;
+	cursor: pointer; 
+	border: 1px solid #888888; 
+	background-color: transparent;
+	color: #ff0000; 
 	float: right;
+	top: 10%;
 	position: -webkit-sticky;
 	position: sticky;
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6); 
 `;
 
 let readerContainer = document.createElement("div");
+readerContainer.appendChild(closebtn);
 readerContainer.append(document.createElement("br"));
 readerContainer.style = `
 	width: 100%;
-	height: 90%;
-	z-index: 4;
+	z-index: 5;
 	text-align:center;
 	color: black;
 	float: right;
-	font-color: black;
 	background-color: rgba(255,255,255,0.6);
 	position: -webkit-sticky;
-	position: sticky;
+	// position: sticky;
+	position: fixed;
 	top: 25%;
-	font-size: 6em;
 `;
 readerContainer.append(reader);
+
 readerContainer.append(document.createElement("br"));
 
 readerContainer.appendChild(document.createElement("br"));
 readerContainer.appendChild(pausebtn);
+
+let words_index = document.createElement("input");
+words_index.type = "range";
+words_index.min = 0;
+// words_index.max = 1000;
+words_index.value = 0;
+words_index.onchange = (e) => {
+	i = e.target.value;
+};
+words_index.style = `
+	width: 100%;
+`;
+
+readerContainer.appendChild(words_index);
 
 readerContainer.id = "freader";
 
@@ -76,6 +118,7 @@ velocity.style = "direction: rtl";
 let activate = document.createElement("button");
 activate.textContent = "Read This Page Fast";
 activate.onclick = () => {
+	activate.disabled = true;
 	readFast();
 }
 activate.style = `
@@ -92,10 +135,11 @@ container.appendChild(document.createElement("br"));
 container.appendChild(activate);
 
 container.style = `
-	z-index: 5;
+	z-index: 6;
 	float: right;
 	position: -webkit-sticky;
-	position: sticky;
+	// position: sticky;
+	position: fixed;
 	top: 22%;
 `;
 
@@ -104,22 +148,32 @@ document.body.prepend(container);
 function readFast(){
 	console.log("reading page text at given velocity: " + velocity.value);
 	document.body.prepend(readerContainer);
-	anim(text);
+	words = text.match(RegExp('\\w+','g'));
+	words_index.max = words.length;
+	anim();
 }
 
-async function anim(text){
-	let words = text.match(RegExp('\\w+','g'));
-	
-	for(let i in words)	{
+async function anim(){
+	pausebtn.textContent = " | | ";
+	// for(i in words)	{
+	for(i = 0; i < words.length; i++){
 		reader.innerText = words[i];
+		words_index.value = i;
 		//highlight(words[i]);
 		await sleep(velocity.value);
 		while(pause){
+			if(breakanim){
+				breakanim = false;
+				pause = false;
+				removeElement("freader");
+				return;
+			}
 			await sleep(1000);
 		}
 	}
 
 	removeElement("freader");
+	activate.disabled = false;
 }
 
 //sleep
