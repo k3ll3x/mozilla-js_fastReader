@@ -13,7 +13,14 @@
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
+			"exclude_matches": [
+				"*://*.netflix.com/*"
+			],
 			"js": ["main.js"]
+		},
+		{
+			"matches": ["*://*.netflix.com/watch/*"],
+			"js": ["video-buttons.js"]
 		}
 	]
 }

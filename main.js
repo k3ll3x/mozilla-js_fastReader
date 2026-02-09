@@ -40,7 +40,7 @@ pausebtn.onclick = () => {
 pausebtn.style = `
 	font-size: 2em;
 	cursor: pointer; 
-	border: 1px solid #888888; 
+	border: 1px solid #888888;
 	background-color: transparent;
 	color: #888888;
 	bottom: 10%;
@@ -58,7 +58,7 @@ closebtn.onclick = () => {
 	activate.disabled = false;
 }
 closebtn.style = `
-	font-size: 2em;
+	font-size: 3em;
 	cursor: pointer; 
 	border: 1px solid #888888; 
 	background-color: transparent;
@@ -125,6 +125,10 @@ activate.style = `
 	border: 1px solid #888888; 
 	background-color: transparent;
 	color: #888888; 
+	z-index: 6;
+	float: right;
+	right: 10%;
+	top: 10%;
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.6); 
 `;
 
@@ -142,6 +146,7 @@ showbtn.style = `
 	// position: sticky;
 	position: fixed;
 	top: 10%;
+	right: 10%;
 `;
 showbtn.onclick = (e) => {
 	if(e.target.innerText == '+'){
@@ -163,12 +168,11 @@ container.id = 'freadcont';
 container.style = `
 	z-index: 6;
 	float: right;
-	position: -webkit-sticky;
-	// position: sticky;
+	//position: -webkit-sticky;
 	position: fixed;
 	top: 22%;
+	right: 10%;
 	display: none;
-  	// overflow: hidden;
 `;
 
 document.body.prepend(showbtn);
